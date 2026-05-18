@@ -7,6 +7,7 @@ import { ProjectArchive } from "@/components/project-archive";
 import { Reveal } from "@/components/reveal";
 import { SocialIcon } from "@/components/social-icon";
 import { FloatingPaths } from "@/components/ui/background-paths";
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { Link, routing, type Locale } from "@/i18n/routing";
 import { getProjects, getSiteConfig, getTimeline } from "@/lib/content";
 
@@ -133,24 +134,29 @@ export default async function EditorialHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section
-        className="bg-stone-100 px-6 py-24 sm:px-10 lg:py-32"
+      <ScrollExpandMedia
+        bgImageSrc="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1920&q=80&sat=-100"
+        date={origin.year}
         id="timeline"
+        mediaSrc={origin.images[0].src}
+        mediaType="image"
+        scrollToExpand="Scroll to expand"
+        textBlend
+        title={origin.title}
       >
-        <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mx-auto grid max-w-7xl gap-14 text-stone-50 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
             <figure>
-              <div className="relative aspect-[4/5] overflow-hidden bg-stone-300">
+              <div className="relative aspect-[4/5] overflow-hidden bg-stone-900">
                 <Image
                   alt={origin.images[0].alt}
                   className="object-cover grayscale"
                   fill
-                  priority
                   sizes="(min-width: 1024px) 45vw, 100vw"
                   src={origin.images[0].src}
                 />
               </div>
-              <figcaption className="mt-4 font-latin text-xs uppercase tracking-[0.22em] text-stone-500">
+              <figcaption className="mt-4 font-latin text-xs uppercase tracking-[0.22em] text-stone-400">
                 {origin.images[0].caption}
               </figcaption>
             </figure>
@@ -162,17 +168,17 @@ export default async function EditorialHome({ params }: PageProps) {
             <h2 className="mt-5 font-display text-5xl font-semibold leading-tight tracking-[-0.05em] sm:text-7xl">
               {origin.title}
             </h2>
-            <p className="mt-8 text-lg leading-9 text-stone-700">
+            <p className="mt-8 text-lg leading-9 text-stone-300">
               {origin.description}
             </p>
             {origin.quote ? (
-              <blockquote className="mt-10 border-l-4 border-stone-950 bg-white p-8 font-display text-2xl leading-10 text-stone-950 shadow-sm">
+              <blockquote className="mt-10 border-l-4 border-stone-50 bg-white p-8 font-display text-2xl leading-10 text-stone-950 shadow-sm">
                 “{origin.quote}”
               </blockquote>
             ) : null}
           </Reveal>
         </div>
-      </section>
+      </ScrollExpandMedia>
 
       <section className="bg-stone-950 px-6 py-24 text-stone-50 sm:px-10 lg:py-32">
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1fr_1.15fr]">
