@@ -1,6 +1,6 @@
-# Georgian Editorial Portfolio
+# ARCI Biographical Website
 
-Static Georgian-first editorial/portfolio website built with Next.js 14, Tailwind CSS, `next/image`, Framer Motion, and `next-intl`.
+Static Georgian-first long-form biographical website for ARCI, a Georgian architecture/design firm founded in 1989. Built with Next.js 14, Tailwind CSS, `next/image`, Framer Motion, and `next-intl`.
 
 ## Getting Started
 
@@ -17,7 +17,7 @@ Open [http://localhost:3000/ka](http://localhost:3000/ka) with your browser to s
 Editable content lives in `/content`:
 
 - `content/site.json`: identity, biography, navigation, contact, social links, and CMS recommendation.
-- `content/projects.json`: selected portfolio projects and image metadata.
+- `content/projects.json`: architecture/design project archive and image metadata.
 - `content/timeline.json`: chronological biography or project milestones.
 
 ## Scripts

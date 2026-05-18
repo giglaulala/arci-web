@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_Georgian, Playfair_Display } from "next/font/google";
+import {
+  Inter,
+  Noto_Sans_Georgian,
+  Noto_Serif_Georgian,
+} from "next/font/google";
 import "./globals.css";
 
 const georgian = Noto_Sans_Georgian({
@@ -14,16 +18,16 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
+const georgianSerif = Noto_Serif_Georgian({
+  subsets: ["georgian"],
+  variable: "--font-georgian-serif",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ნინო არჩვაძე | Editorial Portfolio",
+  title: "ARCI | Since 1989",
   description:
-    "Georgian-language static editorial portfolio for biography, photography projects, and timeline entries.",
+    "Georgian-language long-form biography website for ARCI, a Georgian architecture and design firm founded in 1989.",
 };
 
 export default function RootLayout({
@@ -34,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="ka">
       <body
-        className={`${georgian.variable} ${inter.variable} ${playfair.variable} antialiased`}
+        className={`${georgian.variable} ${georgianSerif.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>

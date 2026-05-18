@@ -15,7 +15,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-georgian)", "var(--font-inter)", "sans-serif"],
         latin: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-playfair)", "var(--font-georgian)", "serif"],
+        display: ["var(--font-georgian-serif)", "serif"],
       },
     },
   },
