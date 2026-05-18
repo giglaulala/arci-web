@@ -3,8 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --background: #0c0a09;
-  --foreground: #fafaf9;
+  --background: 12 10 9;
+  --foreground: 250 250 249;
+  --border: 214 211 209;
+  --input: 214 211 209;
+  --ring: 12 10 9;
+  --primary: 12 10 9;
+  --primary-foreground: 250 250 249;
+  --secondary: 245 245 244;
+  --secondary-foreground: 12 10 9;
+  --destructive: 185 28 28;
+  --destructive-foreground: 250 250 249;
+  --accent: 245 245 244;
+  --accent-foreground: 12 10 9;
+  --radius: 0.625rem;
 }
 
 html {
@@ -12,8 +24,8 @@ html {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
   font-family: var(--font-georgian), var(--font-inter), sans-serif;
 }
 

@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ProjectArchive } from "@/components/project-archive";
 import { Reveal } from "@/components/reveal";
 import { SocialIcon } from "@/components/social-icon";
+import { FloatingPaths } from "@/components/ui/background-paths";
 import { Link, routing, type Locale } from "@/i18n/routing";
 import { getProjects, getSiteConfig, getTimeline } from "@/lib/content";
 
@@ -90,34 +91,39 @@ export default async function EditorialHome({ params }: PageProps) {
       </header>
 
       <section
-        className="border-b border-stone-300 bg-stone-100 px-6 py-24 sm:px-10 lg:py-32"
+        className="relative overflow-hidden border-b border-white/10 bg-stone-950 px-6 py-24 text-stone-50 sm:px-10 lg:py-32"
         id="hero"
       >
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="absolute inset-0 scale-125 opacity-90">
+          <FloatingPaths className="text-white" position={1} />
+          <FloatingPaths className="text-white" position={-1} />
+        </div>
+
+        <div className="relative z-10 mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1.25fr_0.75fr]">
           <Reveal className="max-w-5xl">
-            <p className="mb-8 font-latin text-sm uppercase tracking-[0.45em] text-stone-500">
+            <p className="mb-8 font-latin text-sm uppercase tracking-[0.45em] text-stone-400">
               ARCI / {site.since}
             </p>
-            <h1 className="font-display text-6xl font-semibold leading-[1.04] tracking-[-0.06em] text-stone-950 sm:text-8xl lg:text-9xl">
+            <h1 className="font-display text-6xl font-semibold leading-[1.04] tracking-[-0.06em] text-white sm:text-8xl lg:text-9xl">
               {site.headline}
             </h1>
           </Reveal>
 
           <Reveal className="self-end" delay={0.15}>
-            <p className="text-xl leading-9 text-stone-700">{site.subtitle}</p>
-            <p className="mt-8 border-l-2 border-stone-950 pl-6 text-base leading-8 text-stone-600">
+            <p className="text-xl leading-9 text-stone-200">{site.subtitle}</p>
+            <p className="mt-8 border-l-2 border-white pl-6 text-base leading-8 text-stone-300">
               {site.description}
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <a
-                className="inline-flex items-center gap-2 rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-stone-800"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-stone-200"
                 href="#timeline"
               >
                 ბიოგრაფიის კითხვა
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
-                className="inline-flex items-center gap-2 rounded-full border border-stone-300 px-5 py-3 text-sm text-stone-700 transition hover:border-stone-950"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm text-stone-100 transition hover:border-white hover:bg-white/10"
                 href="#projects"
               >
                 პროექტები
