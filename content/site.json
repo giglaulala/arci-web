@@ -1,0 +1,35 @@
+{
+  "name": "ნინო არჩვაძე",
+  "role": "ფოტოგრაფი, რედაქტორი და ვიზუალური მკვლევარი",
+  "headline": "შავი და თეთრი ისტორიები ქალაქის, მეხსიერებისა და ადამიანების შესახებ.",
+  "description": "სტატიკური სარედაქციო პორტფოლიო Georgian-first სტრუქტურით, რომელიც მზად არის Sanity CMS-ზე გადასატანად.",
+  "location": "თბილისი, საქართველო",
+  "email": "hello@example.com",
+  "portrait": {
+    "src": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80&sat=-100",
+    "alt": "შავ-თეთრი პორტრეტი"
+  },
+  "navigation": [
+    { "label": "ბიოგრაფია", "href": "#bio" },
+    { "label": "პროექტები", "href": "#projects" },
+    { "label": "ქრონოლოგია", "href": "#timeline" },
+    { "label": "კონტაქტი", "href": "#contact" }
+  ],
+  "bio": [
+    "ნინო მუშაობს დოკუმენტურ ფოტოგრაფიასა და გრძელფორმატიან სარედაქციო პროექტებზე, სადაც მთავარი ფოკუსია ადამიანური გამოცდილება, არქივი და ქალაქის ტექსტურა.",
+    "საიტის საწყისი ვერსია ინახავს მონაცემებს JSON ფაილებში, რათა შინაარსის რედაქტირება შესაძლებელი იყოს კოდის შეხების გარეშე CMS ინტეგრაციამდე."
+  ],
+  "social": [
+    {
+      "label": "Instagram",
+      "href": "https://instagram.com",
+      "icon": "instagram"
+    },
+    { "label": "LinkedIn", "href": "https://linkedin.com", "icon": "linkedin" },
+    { "label": "GitHub", "href": "https://github.com", "icon": "github" }
+  ],
+  "cms": {
+    "recommended": "Sanity",
+    "reason": "Sanity უკეთ ერგება პატარა editorial/portfolio საიტს: schema-as-code, draft previews, ძლიერი image pipeline და მარტივი migration JSON მონაცემებიდან."
+  }
+}

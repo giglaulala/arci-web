@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "silent-courtyards",
+    "title": "მდუმარე ეზოები",
+    "category": "ფოტოესე",
+    "year": "2026",
+    "summary": "ძველი თბილისის შიდა ეზოების ვიზუალური დღიური, სადაც ყოველდღიური ცხოვრება არქიტექტურულ მეხსიერებას ხვდება.",
+    "image": {
+      "src": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1400&q=80&sat=-100",
+      "alt": "შავ-თეთრი ქალაქური არქიტექტურა"
+    },
+    "href": "#"
+  },
+  {
+    "slug": "black-sea-notes",
+    "title": "შავი ზღვის ჩანაწერები",
+    "category": "სარედაქციო სერია",
+    "year": "2025",
+    "summary": "სანაპირო ქალაქების, სეზონური შრომისა და ზაფხულის შემდეგ დარჩენილი პეიზაჟების სერია.",
+    "image": {
+      "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80&sat=-100",
+      "alt": "შავ-თეთრი სანაპირო პეიზაჟი"
+    },
+    "href": "#"
+  },
+  {
+    "slug": "archive-of-light",
+    "title": "სინათლის არქივი",
+    "category": "პერსონალური პროექტი",
+    "year": "2024",
+    "summary": "ოჯახური ფოტოების, ზეპირი ისტორიებისა და თანამედროვე პორტრეტების კოლაჟი.",
+    "image": {
+      "src": "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1400&q=80&sat=-100",
+      "alt": "შავ-თეთრი ტყის პეიზაჟი"
+    },
+    "href": "#"
+  }
+]
