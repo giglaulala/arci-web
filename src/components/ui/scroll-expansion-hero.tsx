@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -54,7 +54,7 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  const updateProgress = (deltaY: number) => {
+  const updateProgress = useCallback((deltaY: number) => {
     const scrollDelta = deltaY * (isMobileState ? 0.0045 : 0.0009);
     const newProgress = Math.min(Math.max(scrollProgress + scrollDelta, 0), 1);
 
@@ -66,59 +66,80 @@ const ScrollExpandMedia = ({
     } else if (newProgress < 0.75) {
       setShowContent(false);
     }
-  };
+  }, [isMobileState, scrollProgress]);
 
-  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!sectionRef.current) {
+  useEffect(() => {
+    const sectionElement = sectionRef.current;
+
+    if (!sectionElement) {
       return;
     }
 
-    const sectionTop = sectionRef.current.getBoundingClientRect().top;
-    const isAtSectionTop = Math.abs(sectionTop) < 24;
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      const sectionTop = sectionElement.getBoundingClientRect().top;
+      const isAtSectionTop = Math.abs(sectionTop) < 24;
+      const isScrollingBackPastStart = event.deltaY < 0 && scrollProgress <= 0;
 
-    if (mediaFullyExpanded && event.deltaY < 0 && isAtSectionTop) {
-      event.preventDefault();
-      setMediaFullyExpanded(false);
-      updateProgress(event.deltaY);
-      return;
-    }
+      if (mediaFullyExpanded && event.deltaY < 0 && isAtSectionTop) {
+        event.preventDefault();
+        setMediaFullyExpanded(false);
+        updateProgress(event.deltaY);
+        return;
+      }
 
-    if (!mediaFullyExpanded) {
-      event.preventDefault();
-      updateProgress(event.deltaY);
-    }
-  };
+      if (!mediaFullyExpanded && !isScrollingBackPastStart) {
+        event.preventDefault();
+        updateProgress(event.deltaY);
+      }
+    };
 
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    setTouchStartY(event.touches[0].clientY);
-  };
+    const handleTouchStart = (event: globalThis.TouchEvent) => {
+      setTouchStartY(event.touches[0].clientY);
+    };
 
-  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStartY) {
-      return;
-    }
+    const handleTouchMove = (event: globalThis.TouchEvent) => {
+      if (!touchStartY) {
+        return;
+      }
 
-    const touchY = event.touches[0].clientY;
-    const deltaY = touchStartY - touchY;
+      const touchY = event.touches[0].clientY;
+      const deltaY = touchStartY - touchY;
+      const sectionTop = sectionElement.getBoundingClientRect().top;
+      const isAtSectionTop = Math.abs(sectionTop) < 24;
+      const isSwipingBackPastStart = deltaY < 0 && scrollProgress <= 0;
 
-    if (!sectionRef.current) {
-      return;
-    }
+      if (mediaFullyExpanded && deltaY < -20 && isAtSectionTop) {
+        event.preventDefault();
+        setMediaFullyExpanded(false);
+        updateProgress(deltaY);
+      } else if (!mediaFullyExpanded && !isSwipingBackPastStart) {
+        event.preventDefault();
+        updateProgress(deltaY);
+      }
 
-    const sectionTop = sectionRef.current.getBoundingClientRect().top;
-    const isAtSectionTop = Math.abs(sectionTop) < 24;
+      setTouchStartY(touchY);
+    };
 
-    if (mediaFullyExpanded && deltaY < -20 && isAtSectionTop) {
-      event.preventDefault();
-      setMediaFullyExpanded(false);
-      updateProgress(deltaY);
-    } else if (!mediaFullyExpanded) {
-      event.preventDefault();
-      updateProgress(deltaY);
-    }
+    const handleTouchEnd = () => {
+      setTouchStartY(0);
+    };
 
-    setTouchStartY(touchY);
-  };
+    sectionElement.addEventListener("wheel", handleWheel, { passive: false });
+    sectionElement.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    sectionElement.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
+    sectionElement.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      sectionElement.removeEventListener("wheel", handleWheel);
+      sectionElement.removeEventListener("touchstart", handleTouchStart);
+      sectionElement.removeEventListener("touchmove", handleTouchMove);
+      sectionElement.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [mediaFullyExpanded, scrollProgress, touchStartY, updateProgress]);
 
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
   const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
@@ -131,10 +152,6 @@ const ScrollExpandMedia = ({
     <div
       className="overflow-x-hidden bg-stone-950 text-stone-50 transition-colors duration-700 ease-in-out"
       id={id}
-      onTouchEnd={() => setTouchStartY(0)}
-      onTouchMove={handleTouchMove}
-      onTouchStart={handleTouchStart}
-      onWheel={handleWheel}
       ref={sectionRef}
     >
       <section className="relative flex min-h-[100dvh] flex-col items-center justify-start">

@@ -3,5 +3,32 @@
     "localeLabel": "English",
     "switchLocale": "ქართული",
     "switchLocaleAria": "ქართულზე გადართვა"
+  },
+  "CookieConsent": {
+    "ariaLabel": "Cookie notice",
+    "message": "This site uses cookies. By continuing to browse the site, you agree to our use of cookies. For more information, visit “Settings”.",
+    "modalTitle": "Cookie Preferences",
+    "modalDescription": "We use cookies to provide a better privacy-conscious experience. Choose which types of cookies you allow.",
+    "close": "Close preferences",
+    "accept": "Accept",
+    "settings": "Settings",
+    "save": "Accept and Save",
+    "categories": {
+      "essential": {
+        "title": "Essential",
+        "description": "These cookies are required for the site’s core functionality and cannot be disabled.",
+        "toggleLabel": "Essential cookies enabled"
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "These cookies help us understand how the site is used and how we can improve the experience.",
+        "toggleLabel": "Toggle analytics cookies"
+      },
+      "marketing": {
+        "title": "Marketing",
+        "description": "These cookies are used for more relevant communication and advertising.",
+        "toggleLabel": "Toggle marketing cookies"
+      }
+    }
   }
 }

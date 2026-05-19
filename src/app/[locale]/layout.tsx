@@ -1,6 +1,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 
+import { CookieConsent } from "@/components/cookie-consent";
 import { routing, type Locale } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -20,6 +21,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={params.locale} messages={messages}>
       {children}
+      <CookieConsent />
     </NextIntlClientProvider>
   );
 }
