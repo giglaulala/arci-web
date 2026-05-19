@@ -2,7 +2,13 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -54,19 +60,25 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  const updateProgress = useCallback((deltaY: number) => {
-    const scrollDelta = deltaY * (isMobileState ? 0.0045 : 0.0009);
-    const newProgress = Math.min(Math.max(scrollProgress + scrollDelta, 0), 1);
+  const updateProgress = useCallback(
+    (deltaY: number) => {
+      const scrollDelta = deltaY * (isMobileState ? 0.0045 : 0.0009);
+      const newProgress = Math.min(
+        Math.max(scrollProgress + scrollDelta, 0),
+        1,
+      );
 
-    setScrollProgress(newProgress);
+      setScrollProgress(newProgress);
 
-    if (newProgress >= 1) {
-      setMediaFullyExpanded(true);
-      setShowContent(true);
-    } else if (newProgress < 0.75) {
-      setShowContent(false);
-    }
-  }, [isMobileState, scrollProgress]);
+      if (newProgress >= 1) {
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+      } else if (newProgress < 0.75) {
+        setShowContent(false);
+      }
+    },
+    [isMobileState, scrollProgress],
+  );
 
   useEffect(() => {
     const sectionElement = sectionRef.current;
@@ -143,14 +155,15 @@ const ScrollExpandMedia = ({
 
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
   const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+  const labelTranslateX = scrollProgress * (isMobileState ? 0 : 150);
+  const titleTranslateX = scrollProgress * (isMobileState ? 36 : 150);
 
   const firstWord = title ? title.split(" ")[0] : "";
   const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
 
   return (
     <div
-      className="overflow-x-hidden bg-stone-950 text-stone-50 transition-colors duration-700 ease-in-out"
+      className="overflow-x-clip bg-stone-950 text-stone-50 transition-colors duration-700 ease-in-out"
       id={id}
       ref={sectionRef}
     >
@@ -164,7 +177,7 @@ const ScrollExpandMedia = ({
           >
             <Image
               alt=""
-              className="h-screen w-screen"
+              className="h-full w-full"
               height={1080}
               priority
               sizes="100vw"
@@ -233,16 +246,16 @@ const ScrollExpandMedia = ({
                 <div className="relative z-10 mt-4 flex flex-col items-center text-center transition-none">
                   {date ? (
                     <p
-                      className="font-latin text-2xl text-stone-200"
-                      style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                      className="max-w-full font-latin text-2xl text-stone-200"
+                      style={{ transform: `translateX(-${labelTranslateX}vw)` }}
                     >
                       {date}
                     </p>
                   ) : null}
                   {scrollToExpand ? (
                     <p
-                      className="text-center text-sm font-medium uppercase tracking-[0.28em] text-stone-300"
-                      style={{ transform: `translateX(${textTranslateX}vw)` }}
+                      className="max-w-full text-center text-sm font-medium uppercase tracking-[0.28em] text-stone-300"
+                      style={{ transform: `translateX(${labelTranslateX}vw)` }}
                     >
                       {scrollToExpand}
                     </p>
@@ -256,14 +269,14 @@ const ScrollExpandMedia = ({
                 }`}
               >
                 <motion.h2
-                  className="font-display text-4xl font-bold text-stone-100 transition-none md:text-5xl lg:text-7xl"
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  className="max-w-full break-words font-display text-4xl font-bold text-stone-100 transition-none md:text-5xl lg:text-7xl"
+                  style={{ transform: `translateX(-${titleTranslateX}vw)` }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
-                  className="text-center font-display text-4xl font-bold text-stone-100 transition-none md:text-5xl lg:text-7xl"
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  className="max-w-full break-words text-center font-display text-4xl font-bold text-stone-100 transition-none md:text-5xl lg:text-7xl"
+                  style={{ transform: `translateX(${titleTranslateX}vw)` }}
                 >
                   {restOfTitle}
                 </motion.h2>

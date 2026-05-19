@@ -20,13 +20,22 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
 body {
+  overflow-x: clip;
   color: rgb(var(--foreground));
   background: rgb(var(--background));
   font-family: var(--font-georgian), var(--font-inter), sans-serif;
+}
+
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
 }
 
 @layer utilities {
