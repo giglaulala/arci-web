@@ -34,7 +34,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-georgian)", "var(--font-inter)", "sans-serif"],
         latin: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-georgian-serif)", "serif"],
+        display: ["var(--font-title)", "var(--font-georgian-serif)", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

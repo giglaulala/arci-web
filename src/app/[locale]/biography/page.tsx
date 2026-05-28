@@ -60,6 +60,13 @@ export default async function BiographyPage({ params }: PageProps) {
   const [origin, method, foundation] = timeline;
   const t = await getTranslations("Site");
   const nextLocale = params.locale === "ka" ? "en" : "ka";
+  const getBiographyNavHref = (href: string) => {
+    if (href.startsWith("/")) {
+      return `/${params.locale}${href}`;
+    }
+
+    return href === "#hero" ? "../" : href;
+  };
   const [giaName = method.images[0].caption, giaQuote = ""] =
     method.images[0].caption?.split(" — ") ?? [];
   const [irakliName = method.images[1].caption, irakliQuote = ""] =
@@ -72,8 +79,7 @@ export default async function BiographyPage({ params }: PageProps) {
     title: "1992 წელი – არქიტექტურული სტუდიიდან დეველოპერულ კომპანიამდე",
     intro:
       "მალევე გია აბულაძემ და ირაკლი როსტომაშვილმა კიდევ ერთი თამამი ნაბიჯი გადადგეს. პროექტირების პარალელურად, გადაწყვიტეს ბინათმშენებლობის სფეროშიც ეცადათ ბედი",
-    lead:
-      "კანონი „ინდივიდუალური ბინათმშენებლობის პარალელური სტრუქტურების შექმნის შესახებ“ საქართველოს მთავრობამ 1991 წლის მაისში დაამტკიცა. „მზიური“ კი პირველი ქართული კერძო სამშენებლო კომპანია გახდა.",
+    lead: "კანონი „ინდივიდუალური ბინათმშენებლობის პარალელური სტრუქტურების შექმნის შესახებ“ საქართველოს მთავრობამ 1991 წლის მაისში დაამტკიცა. „მზიური“ კი პირველი ქართული კერძო სამშენებლო კომპანია გახდა.",
     project:
       "„მზიურის“, როგორც დეველოპერული კომპანიის პირველი მასშტაბური პროექტი ვაჟა-ფშაველას I ჩიხის, ახალგაზრდული გამზირის, ბოლოწიკისა და ნუცუბიძის ქუჩების რეკონსტრუქცია იყო, რომელიც იმ დროის მასშტაბებით დასახლებული, ქალაქისგან ჩამოყალიბებულ ტერიტორიას წარმოადგენდა.",
     irakliQuote:
@@ -105,7 +111,7 @@ export default async function BiographyPage({ params }: PageProps) {
                   <a
                     aria-haspopup="menu"
                     className="inline-flex items-center gap-1.5 transition hover:text-white"
-                    href={item.href}
+                    href={getBiographyNavHref(item.href)}
                   >
                     <span>{item.label}</span>
                     <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
@@ -115,7 +121,7 @@ export default async function BiographyPage({ params }: PageProps) {
                       {item.children.map((child) => (
                         <a
                           className="block rounded-xl px-4 py-3 text-sm text-stone-300 transition hover:bg-white/10 hover:text-white"
-                          href={child.href}
+                          href={getBiographyNavHref(child.href)}
                           key={child.label}
                         >
                           {child.label}
@@ -127,7 +133,7 @@ export default async function BiographyPage({ params }: PageProps) {
               ) : (
                 <a
                   className="transition hover:text-white"
-                  href={item.href === "#hero" ? "../" : item.href}
+                  href={getBiographyNavHref(item.href)}
                   key={item.href}
                 >
                   {item.label}

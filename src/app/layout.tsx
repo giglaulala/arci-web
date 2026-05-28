@@ -4,6 +4,7 @@ import {
   Noto_Sans_Georgian,
   Noto_Serif_Georgian,
 } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const georgian = Noto_Sans_Georgian({
@@ -24,6 +25,12 @@ const georgianSerif = Noto_Serif_Georgian({
   display: "swap",
 });
 
+const titleFont = localFont({
+  src: "./fonts/alk-sanet-97918679091.ttf",
+  variable: "--font-title",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "ARCI | Since 1989",
   description:
@@ -38,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="ka">
       <body
-        className={`${georgian.variable} ${georgianSerif.variable} ${inter.variable} antialiased`}
+        className={`${georgian.variable} ${georgianSerif.variable} ${inter.variable} ${titleFont.variable} antialiased`}
       >
         {children}
       </body>

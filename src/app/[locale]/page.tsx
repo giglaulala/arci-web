@@ -43,6 +43,10 @@ export default async function Home({ params }: PageProps) {
   const nextLocale = params.locale === "ka" ? "en" : "ka";
 
   const getHomeNavHref = (href: string) => {
+    if (href.startsWith("/")) {
+      return `/${params.locale}${href}`;
+    }
+
     if (href === "#hero") {
       return "#hero";
     }
@@ -74,7 +78,7 @@ export default async function Home({ params }: PageProps) {
                     <span>{item.label}</span>
                     <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
                   </a>
-                  <div className="pointer-events-none absolute left-0 top-full min-w-56 pt-4 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                  <div className="pointer-events-none absolute left-0 top-full min-w-56 pt-4 opacity-0 transition duration-150 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100">
                     <div className="rounded-2xl border border-white/10 bg-stone-900 p-2 shadow-2xl shadow-black/30">
                       {item.children.map((child) => (
                         <a
@@ -143,8 +147,8 @@ export default async function Home({ params }: PageProps) {
             </h1>
             <p className="mt-8 max-w-3xl text-base leading-8 text-stone-200 sm:text-lg">
               ქართული დეველოპერული და არქიტექტურული ჯგუფი, რომელიც ქმნის
-              საცხოვრებელ სივრცეებს, ურბანულ გარემოს და გრძელვადიან
-              ღირებულებას ქალაქისთვის.
+              საცხოვრებელ სივრცეებს, ურბანულ გარემოს და გრძელვადიან ღირებულებას
+              ქალაქისთვის.
             </p>
           </Reveal>
         </div>

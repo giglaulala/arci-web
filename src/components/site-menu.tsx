@@ -8,7 +8,7 @@ import type { SiteConfig } from "@/types/content";
 
 type SiteMenuProps = {
   navigation: SiteConfig["navigation"];
-  page: "home" | "biography";
+  page: "home" | "biography" | "your-home";
 };
 
 export function SiteMenu({ navigation, page }: SiteMenuProps) {
@@ -34,11 +34,15 @@ export function SiteMenu({ navigation, page }: SiteMenuProps) {
   }, [isOpen]);
 
   const getHref = (href: string) => {
+    if (href.startsWith("/")) {
+      return href;
+    }
+
     if (page === "home") {
       return href === "#hero" ? "/" : `/biography${href}`;
     }
 
-    return href === "#hero" ? "/" : href;
+    return href === "#hero" ? "/" : `/biography${href}`;
   };
 
   return (
@@ -132,7 +136,7 @@ export function SiteMenu({ navigation, page }: SiteMenuProps) {
 
               return (
                 <Link
-                  className="block py-3 underline-offset-4 transition hover:text-stone-500 first:underline"
+                  className="block py-3 underline-offset-4 transition first:underline hover:text-stone-500"
                   href={getHref(item.href)}
                   key={item.label}
                   onClick={() => setIsOpen(false)}

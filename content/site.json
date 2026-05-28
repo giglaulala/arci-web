@@ -37,7 +37,7 @@
     },
     {
       "label": "შენი სახლი",
-      "href": "#projects",
+      "href": "/your-home",
       "children": [
         { "label": "ინტერიერის დიზაინი", "href": "#projects" },
         { "label": "საცხოვრებელი სივრცეები", "href": "#projects" },
