@@ -14,6 +14,10 @@ export type SiteConfig = {
   navigation: Array<{
     label: string;
     href: string;
+    children?: Array<{
+      label: string;
+      href: string;
+    }>;
   }>;
   bio: string[];
   social: Array<{

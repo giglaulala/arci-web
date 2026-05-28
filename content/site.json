@@ -15,10 +15,35 @@
     "alt": "ARCI-ის დამფუძნებლის შავ-თეთრი პორტრეტი"
   },
   "navigation": [
-    { "label": "დასაწყისი", "href": "#hero" },
-    { "label": "ბიოგრაფია", "href": "#timeline" },
-    { "label": "პროექტები", "href": "#projects" },
-    { "label": "კონტაქტი", "href": "#contact" }
+    { "label": "მთავარი", "href": "#hero" },
+    {
+      "label": "არსი ჯგუფი",
+      "href": "#biography",
+      "children": [
+        { "label": "ჩვენ შესახებ", "href": "#biography" },
+        { "label": "ბიოგრაფია", "href": "#biography" },
+        { "label": "კონტაქტი", "href": "#contact" }
+      ]
+    },
+    { "label": "დეველოპმენტი", "href": "#projects" },
+    {
+      "label": "არქიტექტურა",
+      "href": "#projects",
+      "children": [
+        { "label": "პროექტები", "href": "#projects" },
+        { "label": "ურბანული კვლევა", "href": "#projects" },
+        { "label": "მენიუ", "href": "#contact" }
+      ]
+    },
+    {
+      "label": "შენი სახლი",
+      "href": "#projects",
+      "children": [
+        { "label": "ინტერიერის დიზაინი", "href": "#projects" },
+        { "label": "საცხოვრებელი სივრცეები", "href": "#projects" },
+        { "label": "მენიუ", "href": "#contact" }
+      ]
+    }
   ],
   "bio": [
     "37 წლის პროფესიული გზა ARCI-სთვის არ არის მხოლოდ პროექტების სია. ეს არის ქალაქთან ურთიერთობის მეთოდი: დაკვირვება, ზომიერება, მასალის პატივისცემა და სინათლის ზუსტი მართვა.",
@@ -34,7 +59,7 @@
     {
       "title": "ჩვენ შესახებ",
       "links": [
-        { "label": "ბიოგრაფია", "href": "#timeline" },
+        { "label": "ბიოგრაფია", "href": "#biography" },
         { "label": "სტუდია", "href": "#hero" },
         { "label": "პროექტები", "href": "#projects" },
         { "label": "არქივი", "href": "#timeline" }
@@ -46,7 +71,7 @@
         { "label": "არქიტექტურა", "href": "#projects" },
         { "label": "ინტერიერის დიზაინი", "href": "#projects" },
         { "label": "ურბანული კვლევა", "href": "#projects" },
-        { "label": "კონსულტაცია", "href": "#contact" }
+        { "label": "მენიუ", "href": "#contact" }
       ]
     }
   ],
