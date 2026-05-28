@@ -434,7 +434,7 @@ export default async function BiographyPage({ params }: PageProps) {
       </section>
 
       <section
-        className="bg-stone-100 px-6 py-24 sm:px-10 lg:py-32"
+        className="overflow-hidden bg-stone-950 px-6 pt-24 text-stone-50 sm:px-10 lg:pt-32"
         id="projects"
       >
         <div className="mx-auto max-w-7xl">
@@ -443,11 +443,11 @@ export default async function BiographyPage({ params }: PageProps) {
               <p className="font-latin text-sm uppercase tracking-[0.45em] text-stone-500">
                 Project Archive
               </p>
-              <h2 className="mt-5 font-display text-5xl font-semibold leading-tight tracking-[-0.05em] sm:text-7xl">
+              <h2 className="mt-5 font-display text-5xl font-semibold leading-tight tracking-[-0.05em] text-white sm:text-7xl">
                 პროექტები, რომლებიც ბიოგრაფიას აგრძელებს
               </h2>
             </div>
-            <p className="self-end text-lg leading-9 text-stone-600">
+            <p className="self-end text-lg leading-9 text-stone-400">
               ფილტრი აჩვენებს ARCI-ის მუშაობის სხვადასხვა პერიოდს: პირველი
               სახელოსნოებიდან თანამედროვე საზოგადოებრივ და საცხოვრებელ
               პროექტებამდე.
