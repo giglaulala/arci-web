@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { BiographyTestimonialsSection } from "@/components/biography-testimonials-section";
 import { ProjectArchive } from "@/components/project-archive";
 import { Reveal } from "@/components/reveal";
 import { SiteMenu } from "@/components/site-menu";
@@ -157,7 +158,7 @@ export default async function BiographyPage({ params }: PageProps) {
       </header>
 
       <section
-        className="relative overflow-hidden border-b border-white/10 bg-stone-950 px-6 py-24 text-stone-50 sm:px-10 lg:py-32"
+        className="relative overflow-hidden bg-stone-950 px-6 py-24 text-stone-50 sm:px-10 lg:py-32"
         id="biography"
       >
         <div className="absolute inset-0 scale-125 opacity-90">
@@ -316,6 +317,8 @@ export default async function BiographyPage({ params }: PageProps) {
           </Reveal>
         </div>
       </section>
+
+      <BiographyTestimonialsSection />
 
       <section className="bg-stone-100 px-6 py-24 text-stone-950 sm:px-10 lg:py-32">
         <Reveal className="mx-auto max-w-7xl">

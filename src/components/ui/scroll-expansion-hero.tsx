@@ -191,6 +191,8 @@ const ScrollExpandMedia = ({
             <div className="absolute inset-0 bg-stone-950/40" />
           </motion.div>
 
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-52 bg-gradient-to-b from-stone-950 via-stone-950/80 to-transparent sm:h-64" />
+
           <div className="container relative z-10 mx-auto flex flex-col items-center justify-start px-6 sm:px-10">
             <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center">
               <div
