@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 
 import type { Project } from "@/types/content";
+import { resolveSiteImage } from "@/lib/site-images";
 
 const eras: Array<{ label: string; value: "all" | Project["era"] }> = [
   { label: "ყველა პერიოდი", value: "all" },
@@ -100,7 +101,7 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
                         }`}
                         fill
                         sizes="(min-width: 1024px) 18rem, 45vw"
-                        src={project.image.src}
+                        src={resolveSiteImage(project.image.src)}
                       />
                     </div>
                   </div>

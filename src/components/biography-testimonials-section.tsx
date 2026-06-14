@@ -91,9 +91,9 @@ const biographyTestimonials: StaggerTestimonial[] = [
 
 export function BiographyTestimonialsSection() {
   return (
-    <section className="bg-stone-100 px-6 py-24 text-stone-950 sm:px-10 lg:py-32">
-      <div className="mx-auto max-w-7xl">
-        <header className="mb-10 max-w-3xl">
+    <section className="bg-stone-100 py-24 text-stone-950 lg:py-32">
+      <div className="mx-auto mb-10 max-w-7xl px-6 sm:px-10">
+        <header className="max-w-3xl">
           <p className="font-latin text-sm uppercase tracking-[0.45em] text-stone-500">
             პერესტროიკიდან მზიურამდე
           </p>
@@ -107,6 +107,8 @@ export function BiographyTestimonialsSection() {
             ირაკლი როსტომაშვილი არიან.
           </p>
         </header>
+      </div>
+      <div className="relative left-1/2 w-screen -translate-x-1/2">
         <StaggerTestimonials testimonials={biographyTestimonials} />
       </div>
     </section>

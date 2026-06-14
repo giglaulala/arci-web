@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { type StaticImageData } from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -110,23 +110,35 @@ export const StaggerTestimonials: React.FC<StaggerTestimonialsProps> = ({
     setTestimonialsList(testimonials);
   }, [testimonials]);
 
-  const handleMove = (steps: number) => {
-    const newList = [...testimonialsList];
-    if (steps > 0) {
-      for (let i = steps; i > 0; i--) {
-        const item = newList.shift();
-        if (!item) return;
-        newList.push({ ...item, tempId: Math.random() });
+  const handleMove = useCallback((steps: number) => {
+    setTestimonialsList((prev) => {
+      const newList = [...prev];
+
+      if (steps > 0) {
+        for (let i = steps; i > 0; i--) {
+          const item = newList.shift();
+          if (!item) return prev;
+          newList.push({ ...item, tempId: Math.random() });
+        }
+      } else {
+        for (let i = steps; i < 0; i++) {
+          const item = newList.pop();
+          if (!item) return prev;
+          newList.unshift({ ...item, tempId: Math.random() });
+        }
       }
-    } else {
-      for (let i = steps; i < 0; i++) {
-        const item = newList.pop();
-        if (!item) return;
-        newList.unshift({ ...item, tempId: Math.random() });
-      }
-    }
-    setTestimonialsList(newList);
-  };
+
+      return newList;
+    });
+  }, []);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      handleMove(1);
+    }, 3000);
+
+    return () => window.clearInterval(interval);
+  }, [handleMove]);
 
   useEffect(() => {
     const updateSize = () => {
@@ -141,7 +153,10 @@ export const StaggerTestimonials: React.FC<StaggerTestimonialsProps> = ({
 
   return (
     <div
-      className={cn("relative w-full overflow-hidden bg-stone-200/50", className)}
+      className={cn(
+        "relative w-full overflow-hidden bg-stone-200 bg-opacity-50",
+        className,
+      )}
       style={{ height: 600 }}
     >
       {testimonialsList.map((testimonial, index) => {

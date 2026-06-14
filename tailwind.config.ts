@@ -9,6 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        landing: {
+          bg: "#0A0A0A",
+          surface: "#111111",
+          accent: "#FFFFFF",
+          highlight: "#F5F0EB",
+          text: "#F5F0EB",
+          muted: "#8A8480",
+          divider: "#222222",
+        },
         background: "rgb(var(--background) / <alpha-value>)",
         foreground: "rgb(var(--foreground) / <alpha-value>)",
         border: "rgb(var(--border) / <alpha-value>)",
@@ -30,11 +39,41 @@ const config: Config = {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",
           foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
         },
+        muted: {
+          DEFAULT: "rgb(var(--muted) / <alpha-value>)",
+          foreground: "rgb(var(--muted-foreground) / <alpha-value>)",
+        },
       },
       fontFamily: {
         sans: ["var(--font-georgian)", "var(--font-inter)", "sans-serif"],
         latin: ["var(--font-inter)", "sans-serif"],
         display: ["var(--font-title)", "var(--font-georgian-serif)", "serif"],
+        "display-landing": [
+          "var(--font-bebas)",
+          "var(--font-title)",
+          "var(--font-georgian-serif)",
+          "serif",
+        ],
+        "body-landing": [
+          "var(--font-ibm-plex)",
+          "var(--font-georgian)",
+          "sans-serif",
+        ],
+        "mono-label": ["var(--font-jetbrains)", "monospace"],
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+      },
+      animation: {
+        marquee: "marquee 40s linear infinite",
+        "fade-in": "fade-in 0.7s ease forwards",
       },
       borderRadius: {
         lg: "var(--radius)",

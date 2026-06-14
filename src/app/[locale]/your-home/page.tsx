@@ -3,17 +3,19 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import heroImage from "@/components/image-1.png";
-import conceptImage from "@/components/image-2.png";
-import galleryImageOne from "@/components/image-3.png";
-import galleryImageTwo from "@/components/image-4.png";
-import galleryImageThree from "@/components/image-5.png";
-import projectImageOne from "@/components/image-6.png";
-import projectImageTwo from "@/components/image-7.png";
-import projectImageThree from "@/components/image-8.png";
+import heroImage from "@/components/sheni-univ-qucha.jpg";
+import conceptImage from "@/components/sheni-lisi1.jpg";
+import galleryImageOne from "@/components/sheni-samgor.jpg";
+import galleryImageTwo from "@/components/sheni-lisi.jpg";
+import galleryImageThree from "@/components/sheni-univ-qucha.jpg";
+import projectImageOne from "@/components/sheni-samgor.jpg";
+import projectImageTwo from "@/components/sheni-lisi.jpg";
+import projectImageThree from "@/components/sheni-samgor1.jpg";
 import logo from "@/components/Logo.png";
 import { Reveal } from "@/components/reveal";
 import { SiteMenu } from "@/components/site-menu";
+import { YourHomeGallery } from "@/components/your-home-gallery";
+import { YourHomeProjects } from "@/components/your-home-projects";
 import { Link, routing, type Locale } from "@/i18n/routing";
 import { getSiteConfig } from "@/lib/content";
 
@@ -21,40 +23,68 @@ type PageProps = {
   params: { locale: Locale };
 };
 
+const heroMeta = [
+  { label: "ლოკაცია", value: "თბილისი" },
+  { label: "ტიპოლოგია", value: "საცხოვრებელი" },
+  { label: "პროექტები", value: "03" },
+  { label: "სტატუსი", value: "მიმდინარე" },
+];
+
+const conceptPrinciples = [
+  {
+    title: "ბუნებრივი განათება",
+    description:
+      "ბინები ორიენტირებულია სინათლეზე — ღია გეგმები და ფართო ღიობები დღის ნათელს ღრმად უშვებს სივრცეში.",
+  },
+  {
+    title: "მწვანე ეზოები",
+    description:
+      "გამწვანებული საერთო სივრცეები აკავშირებს კორპუსებს და ქმნის ყოველდღიური დასვენების ადგილს.",
+  },
+  {
+    title: "ადამიანური მასშტაბი",
+    description:
+      "მანძილები, ბილიკები და ხედები იგეგმება ადამიანზე — ისე, რომ სახლში დაბრუნება სიმშვიდეს ნიშნავდეს.",
+  },
+];
+
 const galleryImages = [
   {
     src: galleryImageOne,
-    alt: "საცხოვრებელი კომპლექსის ეზო",
+    alt: "„შენი სახლი“ — სამგორის საცხოვრებელი ეზო",
     label: "ეზო და რეკრეაცია",
+    place: "სამგორი",
   },
   {
     src: galleryImageTwo,
-    alt: "თანამედროვე საცხოვრებელი სახლი",
-    label: "სახლები ნათელი ფასადებით",
+    alt: "„შენი სახლი“ — ლისის საცხოვრებელი კორპუსი",
+    label: "საცხოვრებელი კორპუსები",
+    place: "ლისი",
   },
   {
     src: galleryImageThree,
-    alt: "მწვანე საცხოვრებელი სივრცე",
-    label: "მწვანე ბილიკები",
+    alt: "„შენი სახლი“ — უნივერსიტეტის ქუჩის საცხოვრებელი კორპუსი",
+    label: "უნივერსიტეტის ქუჩა",
+    place: "ცენტრი",
   },
 ];
 
 const projectCards = [
   {
-    title: "მზიანი ეზოები",
-    subtitle: "საერთო სივრცეები ყოველდღიური ცხოვრებისთვის",
+    title: "სამგორი",
+    subtitle: "საერთო ეზოები და მწვანე სივრცეები ყოველდღიური ცხოვრებისთვის",
     image: projectImageOne,
-    tag: "სივრცე",
+    tag: "ეზო",
   },
   {
-    title: "სუფთა არქიტექტურა",
-    subtitle: "ბინები მკაფიო გეგმებით და ბუნებრივი განათებით",
+    title: "ლისი",
+    subtitle: "საცხოვრებელი კორპუსები მკაფიო გეგმებით და ბუნებრივი განათებით",
     image: projectImageTwo,
     tag: "არქიტექტურა",
   },
   {
-    title: "ქალაქთან ახლოს",
-    subtitle: "საცხოვრებელი უბანი, რომელიც ყოველდღიურ მარშრუტებს ამარტივებს",
+    title: "უნივერსიტეტის ქუჩა",
+    subtitle: "თანამედროვე საცხოვრებელი კორპუსი ქალაქთან ახლოს",
     image: projectImageThree,
     tag: "ლოკაცია",
   },
@@ -163,36 +193,74 @@ export default async function YourHomePage({ params }: PageProps) {
       </header>
 
       <section
-        className="relative flex min-h-[430px] items-center justify-center overflow-hidden px-6 pb-24 pt-32 text-center text-stone-50 sm:min-h-[520px] sm:px-10"
+        className="relative flex min-h-[640px] flex-col justify-end overflow-hidden px-6 pb-10 pt-40 text-stone-50 sm:min-h-[720px] sm:px-10"
         id="hero"
       >
         <Image
-          alt="შენი სახლის საცხოვრებელი კომპლექსი ღამით"
+          alt="„შენი სახლი“ — უნივერსიტეტის ქუჩის საცხოვრებელი კორპუსი"
           className="object-cover"
           fill
           priority
           sizes="100vw"
           src={heroImage}
         />
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/15 to-black/65" />
-        <Reveal className="relative z-10 max-w-4xl">
-          <p className="mb-5 font-latin text-xs uppercase tracking-[0.5em] text-stone-300">
-            ARCI Living
-          </p>
-          <h1 className="font-display text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl lg:text-7xl">
-            შენი სახლი-ს
-            <br />
-            კონცეფცია
-          </h1>
-        </Reveal>
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/45" />
+
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <Reveal>
+            <div className="flex items-center gap-4">
+              <span className="font-mono-label text-xs tracking-[0.3em] text-stone-300">
+                01
+              </span>
+              <span className="h-px w-12 bg-white/40" />
+              <p className="font-mono-label text-[0.7rem] uppercase tracking-[0.42em] text-stone-300">
+                ARCI Living — Concept
+              </p>
+            </div>
+            <h1 className="mt-7 max-w-4xl font-display text-5xl font-semibold leading-[0.95] tracking-[-0.05em] sm:text-7xl lg:text-8xl">
+              „შენი სახლი“-ს
+              <br />
+              <span className="text-stone-300">კონცეფცია</span>
+            </h1>
+          </Reveal>
+
+          <Reveal
+            className="mt-14 grid grid-cols-2 gap-px overflow-hidden border-t border-white/15 sm:grid-cols-4"
+            delay={0.15}
+          >
+            {heroMeta.map((item) => (
+              <div className="bg-white/[0.03] px-1 py-5 backdrop-blur-sm" key={item.label}>
+                <p className="font-mono-label text-[0.6rem] uppercase tracking-[0.3em] text-stone-400">
+                  {item.label}
+                </p>
+                <p className="mt-2 font-display text-xl font-semibold tracking-[-0.02em] text-white">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+
+        <a
+          aria-label="ქვემოთ გადახვევა"
+          className="group absolute bottom-10 right-6 z-10 hidden items-center gap-3 sm:right-10 sm:inline-flex"
+          href="#concept"
+        >
+          <span className="font-mono-label text-[0.6rem] uppercase tracking-[0.3em] text-stone-300 transition group-hover:text-white">
+            Scroll
+          </span>
+          <span className="grid h-10 w-10 place-items-center rounded-full border border-white/25 transition group-hover:border-white">
+            <ChevronDown className="h-4 w-4 transition group-hover:translate-y-0.5" />
+          </span>
+        </a>
       </section>
 
-      <section className="bg-stone-100 px-6 py-20 sm:px-10 lg:py-28">
+      <section className="bg-stone-100 px-6 py-20 sm:px-10 lg:py-28" id="concept">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <Reveal>
-            <p className="mb-5 font-latin text-xs uppercase tracking-[0.42em] text-stone-500">
-              Concept
+            <p className="mb-5 font-mono-label text-[0.7rem] uppercase tracking-[0.42em] text-stone-500">
+              Concept / 02
             </p>
             <h2 className="font-display text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
               კონცეფციის შესახებ
@@ -217,7 +285,7 @@ export default async function YourHomePage({ params }: PageProps) {
             <figure className="relative">
               <div className="relative aspect-[4/3] overflow-hidden bg-stone-300 shadow-2xl shadow-stone-300">
                 <Image
-                  alt="საცხოვრებელი კომპლექსის პანორამული ხედი"
+                  alt="„შენი სახლი“ — ლისის საცხოვრებელი კომპლექსის პანორამა"
                   className="object-cover"
                   fill
                   sizes="(min-width: 1024px) 52vw, 100vw"
@@ -231,57 +299,33 @@ export default async function YourHomePage({ params }: PageProps) {
             </figure>
           </Reveal>
         </div>
+
+        <div className="mx-auto mt-20 max-w-7xl border-t border-stone-300 lg:mt-28">
+          <div className="grid gap-px sm:grid-cols-3">
+            {conceptPrinciples.map((principle, index) => (
+              <Reveal
+                className="border-b border-stone-300 py-8 sm:border-b-0 sm:py-10 sm:pr-8 sm:[&:not(:first-child)]:border-l sm:[&:not(:first-child)]:border-stone-300 sm:[&:not(:first-child)]:pl-8"
+                delay={index * 0.08}
+                key={principle.title}
+              >
+                <span className="font-mono-label text-sm tracking-[0.2em] text-stone-400">
+                  {(index + 1).toString().padStart(2, "0")}
+                </span>
+                <h3 className="mt-4 font-display text-xl font-semibold tracking-[-0.02em]">
+                  {principle.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-stone-600">
+                  {principle.description}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="bg-[#211d1d] px-6 py-20 text-stone-50 sm:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
-          <Reveal className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-            <div>
-              <p className="font-latin text-xs uppercase tracking-[0.42em] text-stone-500">
-                Gallery
-              </p>
-              <h2 className="mt-4 font-display text-4xl font-semibold tracking-[-0.04em]">
-                ფოტო გალერეა
-              </h2>
-            </div>
-            <div className="flex gap-2">
-              <button
-                aria-label="წინა ფოტო"
-                className="grid h-10 w-10 place-items-center bg-stone-700 text-sm text-white transition hover:bg-white hover:text-stone-950"
-                type="button"
-              >
-                ‹
-              </button>
-              <button
-                aria-label="შემდეგი ფოტო"
-                className="grid h-10 w-10 place-items-center bg-stone-700 text-sm text-white transition hover:bg-white hover:text-stone-950"
-                type="button"
-              >
-                ›
-              </button>
-            </div>
-          </Reveal>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            {galleryImages.map((image, index) => (
-              <Reveal delay={index * 0.08} key={image.label}>
-                <figure>
-                  <div className="relative aspect-[4/3] overflow-hidden bg-stone-800">
-                    <Image
-                      alt={image.alt}
-                      className="object-cover transition duration-500 hover:scale-105"
-                      fill
-                      sizes="(min-width: 768px) 31vw, 100vw"
-                      src={image.src}
-                    />
-                  </div>
-                  <figcaption className="mt-4 border-t border-white/25 pt-4 text-sm text-stone-300">
-                    {image.label}
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
+          <YourHomeGallery images={galleryImages} />
         </div>
       </section>
 
@@ -290,53 +334,25 @@ export default async function YourHomePage({ params }: PageProps) {
         id="projects"
       >
         <div className="mx-auto max-w-7xl">
-          <Reveal className="max-w-4xl">
-            <p className="font-latin text-xs uppercase tracking-[0.42em] text-stone-500">
-              Your Home Projects
-            </p>
-            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-              „შენი სახლი“-ს პროექტები
-            </h2>
-            <p className="mt-6 text-base leading-8 text-stone-600">
-              საცხოვრებელი პროექტები, რომლებიც აერთიანებს სუფთა არქიტექტურას,
-              გამწვანებულ ეზოებს და ფუნქციურ გეგმებს სხვადასხვა ცხოვრების
-              რიტმისთვის.
-            </p>
+          <Reveal className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+            <div className="max-w-4xl">
+              <p className="font-mono-label text-[0.7rem] uppercase tracking-[0.42em] text-stone-500">
+                Index / 03
+              </p>
+              <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
+                „შენი სახლი“-ს პროექტები
+              </h2>
+              <p className="mt-6 text-base leading-8 text-stone-600">
+                საცხოვრებელი პროექტები, რომლებიც აერთიანებს სუფთა არქიტექტურას,
+                გამწვანებულ ეზოებს და ფუნქციურ გეგმებს სხვადასხვა ცხოვრების
+                რიტმისთვის.
+              </p>
+            </div>
           </Reveal>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {projectCards.map((project, index) => (
-              <Reveal delay={index * 0.08} key={project.title}>
-                <article className="group border-b border-stone-300 pb-6">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-stone-300">
-                    <Image
-                      alt={project.title}
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                      fill
-                      sizes="(min-width: 768px) 31vw, 100vw"
-                      src={project.image}
-                    />
-                    <span className="absolute left-4 top-4 bg-white px-3 py-1.5 text-xs font-semibold text-stone-950 shadow-lg">
-                      {project.tag}
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-2xl font-semibold tracking-[-0.03em]">
-                    {project.title}
-                  </h3>
-                  <p className="mt-3 min-h-16 text-sm leading-7 text-stone-600">
-                    {project.subtitle}
-                  </p>
-                  <a
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold underline-offset-4 transition hover:underline"
-                    href="#contact"
-                  >
-                    პროექტის ნახვა
-                    <ArrowUpRight className="h-4 w-4" />
-                  </a>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={0.1}>
+            <YourHomeProjects projects={projectCards} />
+          </Reveal>
         </div>
       </section>
 

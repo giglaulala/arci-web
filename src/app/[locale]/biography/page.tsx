@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { BiographyWitnessSection } from "@/components/biography-witness-section";
 import { BiographyTestimonialsSection } from "@/components/biography-testimonials-section";
 import { ProjectArchive } from "@/components/project-archive";
 import { Reveal } from "@/components/reveal";
@@ -25,6 +26,7 @@ import { FloatingPaths } from "@/components/ui/background-paths";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { Link, routing, type Locale } from "@/i18n/routing";
 import { getProjects, getSiteConfig, getTimeline } from "@/lib/content";
+import { resolveSiteImage, siteImages } from "@/lib/site-images";
 
 type PageProps = {
   params: { locale: Locale };
@@ -201,10 +203,11 @@ export default async function BiographyPage({ params }: PageProps) {
       </section>
 
       <ScrollExpandMedia
-        bgImageSrc="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1920&q=80&sat=-100"
+        bgImageSrc={siteImages["sheni-lisi1"]}
         date={origin.year}
+        entryFromSectionId="biography"
         id="timeline"
-        mediaSrc={origin.images[0].src}
+        mediaSrc={resolveSiteImage(origin.images[0].src)}
         mediaType="image"
         scrollToExpand="Scroll to expand"
         textBlend
@@ -219,7 +222,7 @@ export default async function BiographyPage({ params }: PageProps) {
                   className="object-cover grayscale"
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
-                  src={origin.images[0].src}
+                  src={resolveSiteImage(origin.images[0].src)}
                 />
               </div>
               <figcaption className="mt-4 font-latin text-xs uppercase tracking-[0.22em] text-stone-400">
@@ -246,154 +249,124 @@ export default async function BiographyPage({ params }: PageProps) {
         </div>
       </ScrollExpandMedia>
 
-      <section className="bg-stone-950 px-6 py-24 text-stone-50 sm:px-10 lg:py-32">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.7fr] lg:items-start">
-          <Reveal>
-            <figure className="max-w-md">
-              <div className="relative aspect-[4/5] overflow-hidden bg-stone-900">
-                <Image
-                  alt={method.images[0].alt}
-                  className="object-cover grayscale"
-                  fill
-                  sizes="(min-width: 1024px) 32vw, 100vw"
-                  src={founderPortraitImage}
-                />
-              </div>
-              <figcaption className="mt-6">
-                <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-white">
-                  {giaName}
-                </h3>
-                <p className="mt-4 text-base leading-7 text-stone-400">
-                  {giaQuote}
-                </p>
-              </figcaption>
-            </figure>
-          </Reveal>
-
-          <Reveal
-            className="grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:gap-x-14 lg:gap-y-12"
-            delay={0.1}
-          >
-            <p className="text-lg leading-9 text-stone-300 lg:col-span-2">
-              {method.description}
-            </p>
-            <div>
-              <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-white">
-                {giaName}
-              </h3>
-              <p className="mt-4 text-base leading-7 text-stone-400">
-                {giaFirstProjectQuote}
-              </p>
-            </div>
-            <div className="self-end">
-              <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-white">
-                {irakliName}
-              </h3>
-              <p className="mt-4 text-base leading-7 text-stone-400">
-                {irakliQuote}
-              </p>
-            </div>
-            <div className="grid gap-8 lg:col-span-2 lg:grid-cols-[0.72fr_1fr] lg:items-center">
-              <figure>
-                <div className="relative aspect-[4/3] overflow-hidden bg-stone-900">
-                  <Image
-                    alt={method.images[1].alt}
-                    className="object-cover grayscale"
-                    fill
-                    sizes="(min-width: 1024px) 24vw, 100vw"
-                    src={studioFragmentImage}
-                  />
-                </div>
-              </figure>
-              <div>
-                <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-white">
-                  {giaName}
-                </h3>
-                <p className="mt-4 text-base leading-7 text-stone-400">
-                  {giaMziuriQuote}
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <BiographyWitnessSection
+        description={method.description}
+        moments={[
+          {
+            id: "gia-portrait",
+            name: giaName ?? "",
+            date: "1988",
+            quote: giaQuote,
+            relatedMomentIds: ["gia-first-project", "gia-mziuri"],
+            image: {
+              src: founderPortraitImage,
+              alt: method.images[0].alt,
+              aspectClass: "aspect-[4/5]",
+            },
+          },
+          {
+            id: "gia-first-project",
+            name: giaName ?? "",
+            date: "1988",
+            quote: giaFirstProjectQuote,
+            relatedMomentIds: ["gia-portrait", "irakli-orders", "dev-project"],
+            image: {
+              src: planningTableImage,
+              alt: "სამუშაო შეხვედრა პროექტის მაგიდასთან",
+              aspectClass: "aspect-[4/3]",
+            },
+          },
+          {
+            id: "irakli-orders",
+            name: irakliName ?? "",
+            date: "1988",
+            quote: irakliQuote,
+            relatedMomentIds: ["gia-first-project", "gia-mziuri", "dev-irakli"],
+            image: {
+              src: developerPortraitImage,
+              alt: "ირაკლი როსტომაშვილი",
+              aspectClass: "aspect-[4/4]",
+            },
+          },
+          {
+            id: "gia-mziuri",
+            name: giaName ?? "",
+            date: "1988",
+            quote: giaMziuriQuote,
+            relatedMomentIds: ["gia-portrait", "irakli-orders", "dev-intro"],
+            image: {
+              src: studioFragmentImage,
+              alt: method.images[1].alt,
+              aspectClass: "aspect-[4/3]",
+            },
+          },
+          {
+            id: "dev-intro",
+            name: "1992",
+            date: "1992",
+            quote: `${developmentSection.title}. ${developmentSection.intro}`,
+            relatedMomentIds: ["gia-mziuri", "dev-irakli"],
+          },
+          {
+            id: "dev-irakli",
+            name: "ირაკლი როსტომაშვილი",
+            date: "1992",
+            quote: developmentSection.irakliQuote,
+            relatedMomentIds: ["irakli-orders", "dev-intro", "dev-law"],
+            image: {
+              src: developerPortraitImage,
+              alt: "ირაკლი როსტომაშვილი",
+              aspectClass: "aspect-[4/4]",
+            },
+          },
+          {
+            id: "dev-law",
+            name: "1991 კანონი",
+            date: "1991",
+            quote: developmentSection.lead,
+            relatedMomentIds: ["dev-irakli", "dev-project"],
+          },
+          {
+            id: "dev-project",
+            name: "ვაჟა-ფშაველა",
+            date: "1992",
+            quote: developmentSection.project,
+            relatedMomentIds: [
+              "dev-law",
+              "dev-gia-surprise",
+              "gia-first-project",
+            ],
+          },
+          {
+            id: "dev-gia-surprise",
+            name: "გია აბულაძე",
+            date: "1992",
+            quote: developmentSection.giaQuote,
+            relatedMomentIds: ["dev-project", "dev-construction"],
+          },
+          {
+            id: "dev-construction",
+            name: "მშენებლობა",
+            date: "1992",
+            quote: developmentSection.construction,
+            relatedMomentIds: ["dev-gia-surprise", "dev-closing"],
+            image: {
+              src: planningTableImage,
+              alt: "სამუშაო შეხვედრა პროექტის მაგიდასთან",
+              aspectClass: "aspect-[4/3]",
+            },
+          },
+          {
+            id: "dev-closing",
+            name: "გია აბულაძე",
+            date: "1992",
+            quote: developmentSection.closing,
+            relatedMomentIds: ["dev-construction", "dev-irakli"],
+          },
+        ]}
+      />
 
       <BiographyTestimonialsSection />
-
-      <section className="bg-stone-100 px-6 py-24 text-stone-950 sm:px-10 lg:py-32">
-        <Reveal className="mx-auto max-w-7xl">
-          <header className="max-w-5xl">
-            <h2 className="font-display text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-              {developmentSection.title}
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-stone-600">
-              {developmentSection.intro}
-            </p>
-          </header>
-
-          <div className="mt-14 grid gap-12 lg:grid-cols-[0.78fr_1.72fr]">
-            <figure>
-              <div className="relative aspect-[4/4] overflow-hidden bg-stone-300">
-                <Image
-                  alt="ირაკლი როსტომაშვილი"
-                  className="object-cover"
-                  fill
-                  sizes="(min-width: 1024px) 32vw, 100vw"
-                  src={developerPortraitImage}
-                />
-              </div>
-              <figcaption className="mt-6">
-                <h3 className="font-display text-2xl font-semibold tracking-[-0.03em]">
-                  ირაკლი როსტომაშვილი
-                </h3>
-                <p className="mt-4 text-base leading-8 text-stone-600">
-                  {developmentSection.irakliQuote}
-                </p>
-              </figcaption>
-            </figure>
-
-            <div className="grid gap-10">
-              <div className="space-y-6 text-base leading-8 text-stone-600">
-                <p>{developmentSection.lead}</p>
-                <p>{developmentSection.project}</p>
-              </div>
-
-              <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <blockquote className="border-l-2 border-stone-950 pl-6">
-                  <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-stone-950">
-                    გია აბულაძე
-                  </h3>
-                  <p className="mt-4 text-base leading-8 text-stone-600">
-                    {developmentSection.giaQuote}
-                  </p>
-                </blockquote>
-
-                <figure>
-                  <div className="relative aspect-[4/3] overflow-hidden bg-stone-300">
-                    <Image
-                      alt="სამუშაო შეხვედრა პროექტის მაგიდასთან"
-                      className="object-cover grayscale"
-                      fill
-                      sizes="(min-width: 1024px) 28vw, 100vw"
-                      src={planningTableImage}
-                    />
-                  </div>
-                </figure>
-              </div>
-
-              <div className="grid gap-8 text-base leading-8 text-stone-600 lg:grid-cols-2">
-                <p>{developmentSection.construction}</p>
-                <div>
-                  <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-stone-950">
-                    გია აბულაძე
-                  </h3>
-                  <p className="mt-4">{developmentSection.closing}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
 
       <section className="bg-stone-100 px-6 py-24 sm:px-10 lg:py-32">
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.85fr_1.15fr]">
@@ -424,20 +397,6 @@ export default async function BiographyPage({ params }: PageProps) {
             <p className="mt-8 text-lg leading-9 text-stone-700">
               {foundation.description}
             </p>
-            <figure className="ml-auto mt-12 max-w-sm">
-              <div className="relative aspect-[5/3] overflow-hidden bg-stone-300">
-                <Image
-                  alt={foundation.images[1].alt}
-                  className="object-cover grayscale"
-                  fill
-                  sizes="(min-width: 1024px) 30vw, 100vw"
-                  src={foundation.images[1].src}
-                />
-              </div>
-              <figcaption className="mt-3 text-sm text-stone-500">
-                {foundation.images[1].caption}
-              </figcaption>
-            </figure>
           </Reveal>
         </div>
       </section>

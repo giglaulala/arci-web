@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import {
   useCallback,
   useEffect,
@@ -12,14 +12,15 @@ import {
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
-  mediaSrc: string;
+  mediaSrc: string | StaticImageData;
   posterSrc?: string;
-  bgImageSrc: string;
+  bgImageSrc: string | StaticImageData;
   title?: string;
   date?: string;
   scrollToExpand?: string;
   textBlend?: boolean;
   id?: string;
+  entryFromSectionId?: string;
   children?: ReactNode;
 }
 
@@ -33,6 +34,7 @@ const ScrollExpandMedia = ({
   scrollToExpand,
   textBlend,
   id,
+  entryFromSectionId,
   children,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -42,6 +44,12 @@ const ScrollExpandMedia = ({
   const [isMobileState, setIsMobileState] = useState(false);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollProgressRef = useRef(0);
+  const mediaFullyExpandedRef = useRef(false);
+  const isSnappingRef = useRef(false);
+
+  scrollProgressRef.current = scrollProgress;
+  mediaFullyExpandedRef.current = mediaFullyExpanded;
 
   useEffect(() => {
     setScrollProgress(0);
@@ -59,6 +67,153 @@ const ScrollExpandMedia = ({
 
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
+
+  const snapSectionToTop = useCallback((behavior: ScrollBehavior = "smooth") => {
+    const sectionElement = sectionRef.current;
+
+    if (!sectionElement || isSnappingRef.current) {
+      return false;
+    }
+
+    const sectionTop = sectionElement.getBoundingClientRect().top;
+
+    if (Math.abs(sectionTop) < 24) {
+      return false;
+    }
+
+    isSnappingRef.current = true;
+    window.scrollBy({ top: sectionTop, behavior });
+
+    window.setTimeout(() => {
+      isSnappingRef.current = false;
+    }, behavior === "smooth" ? 700 : 0);
+
+    return true;
+  }, []);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    const hash = window.location.hash.replace("#", "");
+
+    if (hash !== id) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      snapSectionToTop("instant");
+    });
+  }, [id, snapSectionToTop]);
+
+  useEffect(() => {
+    let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+
+    const handleScrollEnd = () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      scrollTimeout = setTimeout(() => {
+        if (
+          mediaFullyExpandedRef.current ||
+          scrollProgressRef.current > 0 ||
+          isSnappingRef.current
+        ) {
+          return;
+        }
+
+        const sectionElement = sectionRef.current;
+
+        if (!sectionElement) {
+          return;
+        }
+
+        const sectionTop = sectionElement.getBoundingClientRect().top;
+
+        if (sectionTop > 24 && sectionTop < window.innerHeight * 0.55) {
+          snapSectionToTop();
+        }
+      }, 120);
+    };
+
+    window.addEventListener("scroll", handleScrollEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollEnd);
+
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+    };
+  }, [snapSectionToTop]);
+
+  useEffect(() => {
+    if (!entryFromSectionId) {
+      return;
+    }
+
+    const fromSection = document.getElementById(entryFromSectionId);
+    const sectionElement = sectionRef.current;
+
+    if (!fromSection || !sectionElement) {
+      return;
+    }
+
+    const shouldHandoff = () => {
+      if (
+        mediaFullyExpandedRef.current ||
+        scrollProgressRef.current > 0 ||
+        isSnappingRef.current
+      ) {
+        return false;
+      }
+
+      const fromRect = fromSection.getBoundingClientRect();
+      const sectionTop = sectionElement.getBoundingClientRect().top;
+
+      return fromRect.bottom > 80 && sectionTop > 24;
+    };
+
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      if (event.deltaY <= 0 || !shouldHandoff()) {
+        return;
+      }
+
+      event.preventDefault();
+      snapSectionToTop();
+    };
+
+    let touchStart = 0;
+
+    const handleTouchStart = (event: globalThis.TouchEvent) => {
+      touchStart = event.touches[0]?.clientY ?? 0;
+    };
+
+    const handleTouchMove = (event: globalThis.TouchEvent) => {
+      const touchY = event.touches[0]?.clientY ?? touchStart;
+      const deltaY = touchStart - touchY;
+
+      if (deltaY <= 12 || !shouldHandoff()) {
+        return;
+      }
+
+      event.preventDefault();
+      snapSectionToTop();
+      touchStart = touchY;
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [entryFromSectionId, snapSectionToTop]);
 
   const updateProgress = useCallback(
     (deltaY: number) => {
@@ -160,6 +315,7 @@ const ScrollExpandMedia = ({
 
   const firstWord = title ? title.split(" ")[0] : "";
   const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
+  const videoSrc = typeof mediaSrc === "string" ? mediaSrc : mediaSrc.src;
 
   return (
     <div
@@ -217,7 +373,7 @@ const ScrollExpandMedia = ({
                       playsInline
                       poster={posterSrc}
                       preload="auto"
-                      src={mediaSrc}
+                      src={videoSrc}
                     />
                     <motion.div
                       animate={{ opacity: 0.5 - scrollProgress * 0.3 }}

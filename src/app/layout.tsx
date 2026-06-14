@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import {
+  Bebas_Neue,
+  IBM_Plex_Sans,
   Inter,
+  JetBrains_Mono,
   Noto_Sans_Georgian,
   Noto_Serif_Georgian,
 } from "next/font/google";
@@ -16,6 +19,26 @@ const georgian = Noto_Sans_Georgian({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const ibmPlex = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex",
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
+
+const bebas = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -45,7 +68,7 @@ export default function RootLayout({
   return (
     <html lang="ka">
       <body
-        className={`${georgian.variable} ${georgianSerif.variable} ${inter.variable} ${titleFont.variable} antialiased`}
+        className={`${georgian.variable} ${georgianSerif.variable} ${inter.variable} ${ibmPlex.variable} ${jetbrains.variable} ${bebas.variable} ${titleFont.variable} antialiased`}
       >
         {children}
       </body>

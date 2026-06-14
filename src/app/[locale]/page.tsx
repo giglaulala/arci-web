@@ -4,10 +4,20 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import logo from "@/components/Logo.png";
-import { Reveal } from "@/components/reveal";
+import { LandingFooter } from "@/components/landing/landing-footer";
+import { LandingHero } from "@/components/landing/landing-hero";
 import { SiteMenu } from "@/components/site-menu";
+import { SectionAbout } from "@/components/landing/section-about";
+import { SectionCareers } from "@/components/landing/section-careers";
+import { SectionCommitments } from "@/components/landing/section-commitments";
+import { SectionCommunity } from "@/components/landing/section-community";
+import { SectionContact } from "@/components/landing/section-contact";
+import { SectionFeaturedProject } from "@/components/landing/section-featured-project";
+import { SectionNews } from "@/components/landing/section-news";
+import { SectionServices } from "@/components/landing/section-services";
+import { StatsMarquee } from "@/components/landing/stats-marquee";
 import { Link, routing, type Locale } from "@/i18n/routing";
-import { getSiteConfig } from "@/lib/content";
+import { getHomeContent, getSiteConfig } from "@/lib/content";
 
 type PageProps = {
   params: { locale: Locale };
@@ -39,6 +49,7 @@ export default async function Home({ params }: PageProps) {
   setRequestLocale(params.locale);
 
   const site = getSiteConfig();
+  const home = getHomeContent();
   const t = await getTranslations("Site");
   const nextLocale = params.locale === "ka" ? "en" : "ka";
 
@@ -51,11 +62,11 @@ export default async function Home({ params }: PageProps) {
       return "#hero";
     }
 
-    return `biography${href}`;
+    return `/${params.locale}/biography${href}`;
   };
 
   return (
-    <main className="h-screen overflow-hidden bg-stone-950 text-stone-50">
+    <main className="bg-landing-bg font-body-landing text-landing-text">
       <header className="absolute top-0 z-50 w-full px-6 py-5 text-stone-50 sm:px-10">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6">
           <a className="flex items-center" href="#hero">
@@ -118,48 +129,24 @@ export default async function Home({ params }: PageProps) {
         </div>
       </header>
 
-      <section
-        className="relative flex h-screen items-end overflow-hidden px-6 pb-24 pt-36 sm:px-10 lg:pb-28"
-        id="hero"
-      >
-        <video
-          aria-label="ARCI development background video"
-          autoPlay
-          className="absolute inset-0 h-full w-full object-cover"
-          loop
-          muted
-          playsInline
-        >
-          <source src="/wmremove-transformed.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20" />
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <Reveal className="max-w-4xl">
-            <p className="mb-6 font-latin text-sm uppercase tracking-[0.45em] text-stone-300">
-              ARCI / {site.since}
-            </p>
-            <h1 className="font-display text-5xl font-semibold leading-[1.02] tracking-[-0.05em] text-white sm:text-7xl lg:text-8xl">
-              ვაშენებთ მომავალს
-              <br />
-              1989 წლიდან
-            </h1>
-            <p className="mt-8 max-w-3xl text-base leading-8 text-stone-200 sm:text-lg">
-              ქართული დეველოპერული და არქიტექტურული ჯგუფი, რომელიც ქმნის
-              საცხოვრებელ სივრცეებს, ურბანულ გარემოს და გრძელვადიან ღირებულებას
-              ქალაქისთვის.
-            </p>
-          </Reveal>
-        </div>
-
-        <Link
-          className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-stone-950 shadow-2xl shadow-black/30 transition hover:bg-stone-200"
-          href="/biography"
-        >
-          ბიოგრაფია
-        </Link>
-      </section>
+      <LandingHero hero={home.hero} since={site.since} />
+      <StatsMarquee stats={home.stats} />
+      <SectionAbout about={home.about} locale={params.locale} />
+      <SectionServices locale={params.locale} services={home.services} />
+      <SectionFeaturedProject
+        locale={params.locale}
+        project={home.featuredProject}
+      />
+      <SectionNews locale={params.locale} news={home.news} />
+      <SectionCommunity community={home.community} locale={params.locale} />
+      <SectionCommitments commitments={home.commitments} />
+      <SectionCareers careers={home.careers} locale={params.locale} />
+      <SectionContact
+        contact={home.contact}
+        locale={params.locale}
+        site={site}
+      />
+      <LandingFooter footer={home.footer} site={site} />
     </main>
   );
 }
